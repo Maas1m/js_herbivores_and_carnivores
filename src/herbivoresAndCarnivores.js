@@ -3,12 +3,8 @@
 class Animal {
   static alive = [];
 
-  static removeDied(animal) {
-    const index = Animal.alive.indexOf(animal);
-
-    if (index !== -1) {
-      Animal.alive.splice(index, 1);
-    }
+  static removeDied() {
+    Animal.alive = Animal.alive.filter((animal) => animal.health > 0);
   }
 
   constructor(name, health = 100) {
@@ -19,9 +15,9 @@ class Animal {
 }
 
 class Herbivore extends Animal {
-  constructor(name, health = 100, hidden) {
+  constructor(name, health = 100, hidden = false) {
     super(name, health);
-    this.hidden = false;
+    this.hidden = hidden;
   }
 
   hide() {
@@ -32,15 +28,15 @@ class Herbivore extends Animal {
     this.health -= damage;
 
     if (this.health <= 0) {
-      Animal.removeDied(this);
+      Animal.removeDied();
     }
   }
 }
 
 class Carnivore extends Animal {
-  constructor(name, health = 100, hidden) {
+  constructor(name, health = 100, hidden = false) {
     super(name, health);
-    this.hidden = false;
+    this.hidden = hidden;
   }
 
   bite(target) {
